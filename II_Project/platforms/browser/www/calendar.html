@@ -3,17 +3,41 @@
 <head>
   <title>Calendario</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" /> 
   <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
   <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.js"></script>
+  <!-- Calendar -->
+  <link rel="stylesheet" href="css/jw-jqm-cal.css" />
+  <script type="text/javascript" src="js/jw-jqm-cal.js"></script>
+  <script type="text/javascript">
+   $(document).on("pageinit", "#view-calendar", function () { 
+     $("#calendar").jqmCalendar({
+        events : [ { "summary" : "Test event", "begin" : new Date(2015,09,05,10,30), "end" : new Date(2015,09,05,12,30) }, { "summary" : "Test event", "begin" : new Date(), "end" : new Date() }, { "summary" : "Test event", "begin" : new Date(), "end" : new Date() } ],
+        months : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+        days : ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+        startOfWeek : 0
+     });
+  })
+  </script>
+  <!-- ******** -->
 </head>
 
 <body>
   <div data-role="page">
     <div data-role="header">
-      <h1>Mi calendario</h1>
+      <h1>Calendario</h1>
     </div>
-    <div role="main" class="ui-content">...</div>
+    <div role="main" class="ui-content">
+      <div data-role="page" id="view-calendar" data-theme="c">
+        <div data-role="header">
+          <h1>My Title</h1>
+        </div>
+        <div data-role="content">
+          <div id="calendar"></div>
+        </div>
+      </div>
+    </div>
+    <div data-role="footer">...</div>
   </div>
 </body>
 </html>
