@@ -388,4 +388,13 @@
       });
    }
 
+   endCalendar = function() {
+    $("#endDate").datepicker({
+      onSelect: function(date, evnt) {
+        console.log(date);
+        return "";
+      }
+    });
+   }
+
 })(jQuery);
