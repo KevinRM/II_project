@@ -1,24 +1,56 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Iniciar sesion</title>
+  <title>Bienvenida</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
   <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
   <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+  <script src="js/formsvalidation.js"></script>
 </head>
 
 <body>
   <div data-role="page">
     <div data-role="header">
-      <h1>Iniciar sesion</h1>
+      <h1>*Nombre app*</h1>
     </div>
-    <div role="main" class="ui-content">
-      <p>Contenido principal</p>
+    <div role="main" class="ui-content" style="text-align:center;">
+		<!-- Imagen de cabecera -->
+		<img src="img/calendar-image-png-3.png" style="width:90%;"/>
+		
+		<!-- Popup para el inicio de sesión -->
+		<a href="#popupLogin" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-check ui-btn-icon-left ui-btn-a" data-transition="pop">Iniciar</a>
+		<div data-role="popup" id="popupLogin" class="ui-corner-all">
+			<form id="signinForm" action="" method="post">
+				<div style="padding:10px 20px;">
+					<h3>Inicio de sesión</h3>
+					<input type="text" name="user" id="un" placeholder="Nombre de usuario">
+					<input type="password" name="pass" id="pw" placeholder="Contraseña">
+					<button type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check">Iniciar sesión</button>
+				</div>
+			</form>
+		</div>
+		
+		<!-- Popup para el registro -->
+		<a href="#popupRegister" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-plus ui-btn-icon-left ui-btn-a" data-transition="pop">Registrarse</a>
+		<div data-role="popup" id="popupRegister" class="ui-corner-all">
+			<form id="registerForm" action="" method="post">
+				<div style="padding:10px 20px;">
+					<h3>Registro</h3>
+					<input type="text" name="user" id="newusername" placeholder="Nombre de usuario">
+					<input type="password" name="pass" id="password" placeholder="Contraseña">
+					<input type="password" name="passrpt" id="pwrepeat" placeholder="Repita contraseña"/>
+					<input type="text" name="realname" id="userrealname" value="" placeholder="Nombre"/>
+					<input type="text" name="lastname" id="userlastname" value="" placeholder="Apellidos"/>
+					<input type="text" onfocus="(this.type='date')" id="date" placeholder="Fecha de nacimiento"/>
+					<button type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check">Enviar</button>
+				</div>
+			</form>
+		</div>
     </div>
-    <div data-role="footer">
-      <p>footer</p>
-    </div>
+	<div data-role="footer" data-position="fixed"> 
+		<h4>Copyright 2016</h4>
+	</div> 
   </div>
 </body>
 </html>
