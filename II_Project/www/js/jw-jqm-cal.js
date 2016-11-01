@@ -31,15 +31,15 @@
          // Version
          version: "1.0.1",
          // Array of month strings (calendar header)
-         months : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+         months : ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Augosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
          // Array of day strings (calendar header)
-         days : ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+         days : ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
 	 yearArrow : false,
 	 disableDates : 0, //0 none, -1 past, +1 future
           // Most months contain 5 weeks, some 6. Set this to six if you don't want the amount of rows to change when switching months.
          weeksInMonth : undefined,
          // Start the week at the day of your preference, 0 for sunday, 1 for monday, and so on.
-         startOfWeek : 0,
+         startOfWeek : 1,
          // List Item formatter, allows a callback to be passed to alter the contect of the list item
          listItemFormatter : listItemFormatter
       };
@@ -217,7 +217,9 @@
       
     function cellTapholdHandler() {
          var $this = $(this),
-	 date = $this.data('date');
+	       date = $this.data('date');
+         document.getElementById("startDate").value = date.toString().substr(0, 15);
+         document.getElementById("endDate").value = date.toString().substr(0, 15);
          $tbody.find("button.ui-btn-active").removeClass("ui-btn-active");
          $this.addClass("ui-btn-active");
          
@@ -236,6 +238,8 @@
       function cellClickHandler() {
          var $this = $(this),
          date = $this.data('date');
+         document.getElementById("startDate").value = date.toString().substr(0, 15);
+         document.getElementById("endDate").value = date.toString().substr(0, 15);
          $tbody.find("button.ui-btn-active").removeClass("ui-btn-active");
          $this.addClass("ui-btn-active");
          
