@@ -31,7 +31,7 @@
             // Version
             version: "1.0.1",
             // Array of month strings (calendar header)
-            months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Augosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+            months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
             // Array of day strings (calendar header)
             days: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
             yearArrow: false,
@@ -399,6 +399,9 @@
         });
         $("#endDate").datepicker({
             firstDay: 1,
+            dayNamesMin: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
+            monthNames: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre"
+            , "Noviembre", "Diciembre"],
             onSelect: function (selected, evnt) {
                 $("#endDate").val(getDateFormated(selected));
             }
