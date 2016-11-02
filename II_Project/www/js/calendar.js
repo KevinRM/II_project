@@ -62,8 +62,8 @@
 
             // Build the header
             var $thead = $("<thead/>").appendTo($table),
-               $tr = $("<tr/>").appendTo($thead),
-               $th = $("<th class='ui-bar-" + plugin.settings.theme + " header' colspan='7'/>");
+                $tr = $("<tr/>").appendTo($thead),
+                $th = $("<th class='ui-bar-" + plugin.settings.theme + " header' colspan='7'/>");
 
             $("<a href='#' data-role='button' data-icon='arrow-l' data-iconpos='notext' class='previous-btn'>Previous</a>").click(function () {
                 refresh(new Date(plugin.settings.date.getFullYear(), plugin.settings.date.getMonth() - 1,
@@ -75,9 +75,9 @@
             if (plugin.settings.yearArrow) {
                 $("<a href='#' data-role='button' data-icon='arrow-d' data-iconpos='notext' class='previous-btn'>Previous</a>").click(function () {
                     refresh(new Date(plugin.settings.date.getFullYear(), plugin.settings.date.getMonth() - 12,
-                               plugin.settings.date.getDate() <= _daysInMonth(new Date(plugin.settings.date.getFullYear(), plugin.settings.date.getMonth() - 12)) ? plugin.settings.date.getDate() : _daysInMonth(new Date(plugin.settings.date.getFullYear(), plugin.settings.date.getMonth() - 12))
+                        plugin.settings.date.getDate() <= _daysInMonth(new Date(plugin.settings.date.getFullYear(), plugin.settings.date.getMonth() - 12)) ? plugin.settings.date.getDate() : _daysInMonth(new Date(plugin.settings.date.getFullYear(), plugin.settings.date.getMonth() - 12))
 
-                            ));
+                    ));
                 }).appendTo($th);
             }
 
@@ -93,9 +93,9 @@
             if (plugin.settings.yearArrow) {
                 $("<a href='#' data-role='button' data-icon='arrow-u' data-iconpos='notext' class='next-btn'>Next</a>").click(function () {
                     refresh(new Date(plugin.settings.date.getFullYear(), plugin.settings.date.getMonth() + 12,
-                                plugin.settings.date.getDate() <= _daysInMonth(new Date(plugin.settings.date.getFullYear(), plugin.settings.date.getMonth() + 12)) ? plugin.settings.date.getDate() : _daysInMonth(new Date(plugin.settings.date.getFullYear(), plugin.settings.date.getMonth() + 12))
+                        plugin.settings.date.getDate() <= _daysInMonth(new Date(plugin.settings.date.getFullYear(), plugin.settings.date.getMonth() + 12)) ? plugin.settings.date.getDate() : _daysInMonth(new Date(plugin.settings.date.getFullYear(), plugin.settings.date.getMonth() + 12))
 
-                            ));
+                    ));
                 }).appendTo($th);
             }
 
@@ -104,7 +104,7 @@
             $tr = $("<tr/>").appendTo($thead);
 
             // The way of determing the labels for the days is a bit awkward, but works.
-            for (var i = 0, days = [].concat(plugin.settings.days, plugin.settings.days).splice(plugin.settings.startOfWeek, 7) ; i < 7; i++) {
+            for (var i = 0, days = [].concat(plugin.settings.days, plugin.settings.days).splice(plugin.settings.startOfWeek, 7); i < 7; i++) {
                 $tr.append("<th class='ui-bar-" + plugin.settings.theme + "'><span id='nameday" + i + "' class='darker'>" + days[i] + "</span></th>"); //lp20150515
             }
 
@@ -144,10 +144,10 @@
 
             // Find events for this date
             for (var i = 0,
-                      event,
-                      begin = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0),
-                      end = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1, 0, 0, 0, 0) ;
-                  event = plugin.settings.events[i]; i++) {
+                event,
+                begin = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0),
+                end = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1, 0, 0, 0, 0);
+                event = plugin.settings.events[i]; i++) {
                 if (event[plugin.settings.end] >= begin && event[plugin.settings.begin] < end) {
                     importance++;
                     var bg = event[plugin.settings.bg];
@@ -174,11 +174,11 @@
         function addCell($row, date, darker, selected) {
             var $td = $("<td class='ui-body-" + plugin.settings.theme + "'/>").appendTo($row),
                 $a = $("<button href='#' class='ui-btn ui-btn-up-" + plugin.settings.theme + "'/>")
-                     .html(date.getDate().toString())
-                     .data('date', date)
-                     .click(cellClickHandler)
-             .taphold(cellTapholdHandler)
-                     .appendTo($td);
+                    .html(date.getDate().toString())
+                    .data('date', date)
+                    .click(cellClickHandler)
+                    .taphold(cellTapholdHandler)
+                    .appendTo($td);
 
             if (selected) $a.click();
 
@@ -189,30 +189,30 @@
             $a.attr("disabled", isDisabled(date));
 
             plugin.settings.eventHandler.getImportanceOfDay(date,
-               function (importance, bg) {
-                   if (importance > 0) {
-                       $a.append("<span>&bull;</span>");
-                   }
+                function (importance, bg) {
+                    if (importance > 0) {
+                        $a.append("<span>&bull;</span>");
+                    }
 
-                   if (date.getFullYear() === today.getFullYear() &&
+                    if (date.getFullYear() === today.getFullYear() &&
                         date.getMonth() === today.getMonth() &&
                         date.getDate() === today.getDate()) {
-                       $a.addClass("ui-btn-today");
-                   } else {
+                        $a.addClass("ui-btn-today");
+                    } else {
 
-                       if (bg) {/* 2014113: added bg definition based on event "bg"
+                        if (bg) {/* 2014113: added bg definition based on event "bg"
 			      if bg specified in one event it will prevail on "importance-?" class
 			      Open point:
 			      There can be more than one event per day. Which one drives the color of the day?
 			      As per actual implementation it's the first event.
 			   */
 
-                           $a.addClass(bg);
-                       } else {
-                           $a.addClass("importance-" + importance.toString());
-                       }
-                   }
-               });
+                            $a.addClass(bg);
+                        } else {
+                            $a.addClass("importance-" + importance.toString());
+                        }
+                    }
+                });
         }
 
         function cellTapholdHandler() {
@@ -283,10 +283,10 @@
             plugin.settings.date = date = date || plugin.settings.date || new Date();
 
             var year = date.getFullYear(),
-               month = date.getMonth(),
-               daysBefore = _daysBefore(date),
-               daysInMonth = _daysInMonth(date),
-               weeksInMonth = plugin.settings.weeksInMonth || _weeksInMonth(date, daysInMonth, daysBefore);
+                month = date.getMonth(),
+                daysBefore = _daysBefore(date),
+                daysInMonth = _daysInMonth(date),
+                weeksInMonth = plugin.settings.weeksInMonth || _weeksInMonth(date, daysInMonth, daysBefore);
 
             if (((daysInMonth + daysBefore) / 7) - weeksInMonth === 0)
                 weeksInMonth++;
@@ -297,11 +297,11 @@
             $header.html(plugin.settings.months[month] + " " + year.toString());
 
             for (var weekIndex = 0,
-                     daysInMonthCount = 1,
-                     daysAfterCount = 1; weekIndex < weeksInMonth; weekIndex++) {
+                daysInMonthCount = 1,
+                daysAfterCount = 1; weekIndex < weeksInMonth; weekIndex++) {
 
                 var daysInWeekCount = 0,
-                   row = $("<tr/>").appendTo($tbody);
+                    row = $("<tr/>").appendTo($tbody);
 
                 // Previous month
                 while (daysBefore > 0) {
@@ -326,7 +326,7 @@
             }
 
             //lp20150515
-            for (var i = 0, days = [].concat(plugin.settings.days, plugin.settings.days).splice(plugin.settings.startOfWeek, 7) ; i < 7; i++) {
+            for (var i = 0, days = [].concat(plugin.settings.days, plugin.settings.days).splice(plugin.settings.startOfWeek, 7); i < 7; i++) {
                 document.getElementById('nameday' + i).innerHTML = days[i];
             }
 
@@ -343,7 +343,7 @@
                 for (var i = 0, event; event = list_of_events[i]; i++) {
                     var summary = event[plugin.settings.summary],
                         bg = event[plugin.settings.bg],
-                itemIndex = event[plugin.settings.itemIndex],
+                        itemIndex = event[plugin.settings.itemIndex],
                         beginTime = ((event[plugin.settings.begin] > begin) ? event[plugin.settings.begin] : begin).toTimeString().substr(0, 5),
                         endTime = ((event[plugin.settings.end] < end) ? event[plugin.settings.end] : end).toTimeString().substr(0, 5),
                         timeString = beginTime + "-" + endTime,
@@ -393,14 +393,17 @@
     }
 
     /* Added for me */
-    endCalendar = function () {
-        var da = $("#endDate").datepicker({
+    $(document).ready(function () {
+        $("#calendar").jqmCalendar({
+            /*events : [ { "summary" : "Test event", "begin" : new Date(2015,09,05,10,30), "end" : new Date(2015,09,05,12,30) }, { "summary" : "Test event", "begin" : new Date(), "end" : new Date() }, { "summary" : "Test event", "begin" : new Date(), "end" : new Date() } ]*/
+        });
+        $("#endDate").datepicker({
             firstDay: 1,
             onSelect: function (selected, evnt) {
                 $("#endDate").val(getDateFormated(selected));
             }
         });
-    }
+    })
 
     getDateFormated = function (selected) {
         var daysOfWeek = ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"];
