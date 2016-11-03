@@ -39,7 +39,7 @@
                             <input type="text" name="nameEvent" id="nameEvent" value="" placeholder="Nombre del evento" data-theme="b">
                             <div class="startInput">
                                 <h4 style="margin-top:20px;">Inicio</h4>
-                                <input type="text" name="startDate" id="startDate" value="" placeholder="Fecha inicio" data-theme="b">
+                                <input type="text" name="startDate" id="startDate" value="" placeholder="Fecha inicio" data-theme="b" readonly>
                                 <input type="time" name="startHour" id="startHour" value="" data-theme="b">
                             </div>
                             <div class="endInput">
@@ -47,7 +47,7 @@
                                 <input type="text" name="endDate" id="endDate" value="" placeholder="Fecha finalizar" data-theme="b">
                                 <input type="time" name="endHour" id="endHour" value="" data-theme="b">
                             </div>
-                            <button type="button" onClick="" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check">Añadir</button>
+                            <button type="button" onClick="addEventToCalendar()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check">Añadir</button>
                         </div>
                     </form>
                 </div>

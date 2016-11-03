@@ -1,6 +1,5 @@
 (function ($) {
-    $.jqmCalendar = function (element, options) {
-
+    $.jqmCalendar = function (element, options, cal) {
         var defaults = {
             // Array of events
             events: [],
@@ -54,8 +53,10 @@
             $tbody,
             $listview;
 
-        function init() {
+        // Parameter added for me to get the events
+        function init(cal) {
             plugin.settings = $.extend({}, defaults, options);
+            cal.eventsCalendar = plugin.settings.events;        // Added for me
             plugin.settings.theme = $.mobile.getInheritedTheme($element, plugin.settings.theme);
 
             $table = $("<table/>");
@@ -381,31 +382,36 @@
             refresh(date);
         });
 
-        init();
+        cal.refreshFunction = refresh;
+        init(cal);      // Parameter added for me
     };
 
-    $.fn.jqmCalendar = function (options) {
+    $.fn.jqmCalendar = function (cal, options) {
         return this.each(function () {
             if (!$(this).data('jqmCalendar')) {
-                $(this).data('jqmCalendar', new $.jqmCalendar(this, options));
+                $(this).data('jqmCalendar', new $.jqmCalendar(this, options, cal));
             }
         });
     }
 
     /* Added for me */
+    var calendar = {    // Object to get the events and things of the calendar
+        eventsCalendar: null,
+        refreshFunction: null
+    };
+
     $(document).ready(function () {
-        $("#calendar").jqmCalendar({
-            /*events : [ { "summary" : "Test event", "begin" : new Date(2015,09,05,10,30), "end" : new Date(2015,09,05,12,30) }, { "summary" : "Test event", "begin" : new Date(), "end" : new Date() }, { "summary" : "Test event", "begin" : new Date(), "end" : new Date() } ]*/
-        });
+        $("#calendar").jqmCalendar(calendar, {});
         $("#endDate").datepicker({
             firstDay: 1,
             dayNamesMin: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
             monthNames: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre"
-            , "Noviembre", "Diciembre"],
+                , "Noviembre", "Diciembre"],
             onSelect: function (selected, evnt) {
                 $("#endDate").val(getDateFormated(selected));
             }
         });
+        console.log(calendar);
     })
 
     getDateFormated = function (selected) {
@@ -416,5 +422,14 @@
         return daysOfWeek[selected.getDay()] + " " + monthsOfYear[selected.getMonth()] + " " + selected.getDate() +
             " " + selected.getFullYear();
     }
+
+    addEventToCalendar = function () {
+        name = document.getElementById("nameEvent").value;
+        start = document.getElementById("startDate").value + " " + document.getElementById("startHour").value;
+        end = document.getElementById("endDate").value + " " + document.getElementById("endHour").value;
+        calendar.eventsCalendar.splice(0, 0, { "summary": name, "begin": new Date(start), "end": new Date(end) });
+        calendar.refreshFunction();
+    }
+    /* ------------------------------------------------------------------------------*/
 
 })(jQuery);
