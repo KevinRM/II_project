@@ -375,6 +375,7 @@
             } else {
                 $listItem.text(text);
             }
+            $("<button style='display:inline;'>Hola</button>").appendTo($listItem);
 
         }
 
@@ -425,10 +426,22 @@
 
     addEventToCalendar = function () {
         name = document.getElementById("nameEvent").value;
-        start = document.getElementById("startDate").value + " " + document.getElementById("startHour").value;
-        end = document.getElementById("endDate").value + " " + document.getElementById("endHour").value;
-        calendar.eventsCalendar.splice(0, 0, { "summary": name, "begin": new Date(start), "end": new Date(end) });
+        if (name == "") {
+            name = "Ocupado";
+        }
+        startDate = document.getElementById("startDate").value;
+        startHour = document.getElementById("startHour").value;
+        if (startHour == "") {
+            startHour = "00:00";
+        }
+        endDate = document.getElementById("endDate").value;
+        endHour = document.getElementById("endHour").value;
+        if (endHour == "") {
+            endHour = "00:01";
+        }
+        calendar.eventsCalendar.splice(0, 0, {"summary": name, "begin": new Date(startDate + " " + startHour), "end": new Date(endDate + " " + endHour)});
         calendar.refreshFunction();
+        $("#popupBasic").popup("close");
     }
     /* ------------------------------------------------------------------------------*/
 
