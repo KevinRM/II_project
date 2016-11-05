@@ -1,0 +1,12 @@
+.add_event {
+	text-align: center;
+}
+
+#nameEvent, #startDate, #startHour, #endDate, #endHour {
+    text-align: center;
+}
+
+/* Placeholder color */
+::-webkit-input-placeholder {
+   color: white;
+}

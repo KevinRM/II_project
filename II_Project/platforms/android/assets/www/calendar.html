@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Calendario</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <link rel="stylesheet" href="css/normalize.css" />
+    <link rel="stylesheet" href="css/calendar.css" />
+    <link rel="stylesheet" href="css/datepicker.css" />
+    <link rel="stylesheet" href="css/jw-jqm-cal.css" />
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.js"></script>
+    <script type="text/javascript" src="js/calendar.js"></script>
+    <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <!-- Idx =
+    <script type="text/javascript">
+      function changePage(page) {
+        window.location = page;
+      }
+    </script>
+    bdy
+    <button onclick="changePage('calendar.html')">Calendario</button>-->
+    <!-- ******** -->
+</head>
+
+<body>
+    <div data-role="page">
+        <div data-role="header">
+            <h1>Calendario</h1>
+        </div>
+        <div role="main" class="ui-content">
+            <div id="calendar"></div>
+            <div class="add_event">
+                <a href="#popupBasic" data-rel="popup" class="ui-btn ui-corner-all ui-shadow ui-btn-inline" data-transition="slidedown">Añadir evento</a>
+                <div data-role="popup" data-overlay-theme="a" data-theme="b" id="popupBasic">
+                    <form>
+                        <div style="text-align: center;padding:0px 20px">
+                            <h3>Evento</h3>
+                            <input type="text" name="nameEvent" id="nameEvent" value="" placeholder="Nombre del evento" data-theme="b">
+                            <div class="startInput">
+                                <h4 style="margin-top:20px;">Inicio</h4>
+                                <input type="text" name="startDate" id="startDate" value="" placeholder="Fecha inicio" data-theme="b" readonly>
+                                <input type="time" name="startHour" id="startHour" value="" data-theme="b">
+                            </div>
+                            <div class="endInput">
+                                <h4 style="margin-top:20px;">Final</h4>
+                                <input type="text" name="endDate" id="endDate" value="" placeholder="Fecha finalizar" data-theme="b">
+                                <input type="time" name="endHour" id="endHour" value="" data-theme="b">
+                            </div>
+                            <button type="button" onClick="addEventToCalendar()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check">Añadir</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
