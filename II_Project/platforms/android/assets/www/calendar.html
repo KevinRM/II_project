@@ -32,8 +32,8 @@
         <div role="main" class="ui-content">
             <div id="calendar"></div>
             <div class="add_event">
-                <a href="#popupBasic" data-rel="popup" class="ui-btn ui-corner-all ui-shadow ui-btn-inline" data-transition="slidedown">Añadir evento</a>
-                <div data-role="popup" data-overlay-theme="a" data-theme="b" id="popupBasic">
+                <a href="#popupAddEvent" data-rel="popup" class="ui-btn ui-corner-all ui-shadow ui-btn-inline" data-transition="slidedown">Añadir evento</a>
+                <div data-role="popup" data-overlay-theme="a" data-theme="b" id="popupAddEvent">
                     <form>
                         <div style="text-align: center;padding:0px 20px">
                             <h3>Evento</h3>
@@ -52,6 +52,13 @@
                         </div>
                     </form>
                 </div>
+            </div>
+            <div data-role="popup" id="popupMenuEvent" data-theme="b">
+                <ul data-role="listview" data-inset="true" style="min-width:210px;">
+                    <li data-role="list-divider">Ajustes</li>
+                    <li><a href="#">Editar</a></li>
+                    <li><a href="#" onclick="deleteEvent()">Eliminar</a></li>
+                </ul>
             </div>
         </div>
     </div>

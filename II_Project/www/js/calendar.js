@@ -16,6 +16,7 @@
             // Default properties for events
             begin: "begin",
             end: "end",
+            numerEvent: "numberEvent",
             summary: "summary",
             bg: "bg", // as per http://stackoverflow.com/questions/18782689/how-to-change-the-background-image-on-particular-date-in-calendar-based-on-event
             itemIndex: "itemIndex",
@@ -371,12 +372,12 @@
                 $listItem.attr('id', 'id' + event.itemIndex);
             }
             if (event[plugin.settings.url]) {
-                $('<a></a>').text(text).attr('href', event[plugin.settings.url]).appendTo($listItem);
+                //$('<a onclick="eventSettings()"></a>').text(text).attr('href', event[plugin.settings.url]).appendTo($listItem);
             } else {
-                $listItem.text(text);
+                //$('<a onclick="eventSettings()"></a>').text(text).appendTo($listItem);
+                $('<a href="#popupMenuEvent" onclick="selectEvent(this.id)" data-rel="popup" data-transition="turn" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-gear ui-btn-icon-right ui-btn-a"></a>').
+                text(text).attr('id', event.numerEvent).appendTo($listItem);
             }
-            $("<button style='display:inline;'>Hola</button>").appendTo($listItem);
-
         }
 
         $element.bind('refresh', function (event, date) {
@@ -397,6 +398,8 @@
 
     /* Added for me */
     var calendar = {    // Object to get the events and things of the calendar
+        numberEvents: 1,
+        eventSelected: null,
         eventsCalendar: null,
         refreshFunction: null
     };
@@ -412,7 +415,6 @@
                 $("#endDate").val(getDateFormated(selected));
             }
         });
-        console.log(calendar);
     })
 
     getDateFormated = function (selected) {
@@ -439,9 +441,26 @@
         if (endHour == "") {
             endHour = "00:01";
         }
-        calendar.eventsCalendar.splice(0, 0, {"summary": name, "begin": new Date(startDate + " " + startHour), "end": new Date(endDate + " " + endHour)});
+        calendar.eventsCalendar.splice(0, 0, {"summary": name, "begin": new Date(startDate + " " + startHour), 
+        "end": new Date(endDate + " " + endHour), "numerEvent": calendar.numberEvents});
         calendar.refreshFunction();
-        $("#popupBasic").popup("close");
+        calendar.numberEvents++;
+        $("#popupAddEvent").popup("close");
+    }
+
+    selectEvent = function (id) {
+        calendar.eventSelected = id;
+    }
+
+    deleteEvent = function () {
+        for (var i = 0; i < calendar.eventsCalendar.length; i++) {
+            if (calendar.eventSelected == calendar.eventsCalendar[i].numerEvent) {
+                calendar.eventsCalendar.splice(i, 1);   // Remove event
+                i = calendar.eventsCalendar.length;     // Finish loop
+                calendar.refreshFunction();             // Refresh calendar
+                $("#popupMenuEvent").popup("close");    // Close popup
+            }
+        }
     }
     /* ------------------------------------------------------------------------------*/
 
