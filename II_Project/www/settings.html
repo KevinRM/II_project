@@ -6,20 +6,9 @@
   <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
   <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
   <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-  <script>
-    $(document).ready(function() {
-      var screen = $.mobile.getScreenHeight();
-      var header = $(".ui-header").hasClass("ui-header-fixed") ? $(".ui-header").outerHeight()  - 1 : $(".ui-header").outerHeight();
-      var footer = $(".ui-footer").hasClass("ui-footer-fixed") ? $(".ui-footer").outerHeight() - 1 : $(".ui-footer").outerHeight();
-
-      var contentCurrent = $(".ui-content").outerHeight() - $(".ui-content").height();
-      var content = screen - header - footer - contentCurrent;
-      $(".ui-content").height(content);
-    });
-  </script>
-  <style>
-    
-  </style>
+  <!-- Ajustar el contenido central para extenderlo a la totalidad de la pantalla -->
+  <script src="js/resize.js"></script>
+  <script src="js/buttons.js"></script>
 </head>
 
 <body>
@@ -27,7 +16,7 @@
     <!-- Título -->
     <div data-role="header" data-theme="b">
       <h1>Ajustes</h1>
-      <a href="" data-icon="home" data-iconpos="notext"></a>
+      <a href="calendar.html" data-icon="home" data-iconpos="notext"></a>
       <a href="#outside" data-icon="bars" data-iconpos="notext">Menú</a>
     </div>    
     <!-- Contenido principal -->
@@ -35,12 +24,12 @@
       <!-- Tabla de botones -->
       <table class="buttonstable" align="center" width="100%" height="100%">
         <tr>
-          <td><a href="#" data-role="button" data-icon="user" data-iconpos="top" data-theme="b">Personalizar</a></td>
-          <td><a href="#" data-role="button" data-icon="delete" data-iconpos="top" data-theme="b">Cerrar sesión</a></td>
+          <td valign="bottom"><a href="#" data-role="button" data-icon="user" data-iconpos="top" data-theme="b" style="padding-top:50px;">Personalizar</a></td>
+          <td valign="bottom"><a href="#" data-role="button" data-icon="delete" data-iconpos="top" data-theme="b" style="padding-top:50px;">Cerrar sesión</a></td>
         </tr>
         <tr>
-          <td><a href="#" data-role="button" data-icon="info" data-iconpos="top" data-theme="b">Acerca de</a></td>
-          <td><a href="#" data-role="button" data-icon="alert" data-iconpos="top" data-theme="b">Otros</a></td>
+          <td valign="top"><a href="#" data-role="button" data-icon="info" data-iconpos="top" data-theme="b" style="padding-top:50px;">Acerca de</a></td>
+          <td valign="top"><a href="#" data-role="button" data-icon="alert" data-iconpos="top" data-theme="b" style="padding-top:50px;">Otros</a></td>
         </tr>
       </table>
     </div>
@@ -52,11 +41,11 @@
     <div data-role="panel" id="outside" data-theme="b">
       <ul data-role="listview">
         <li data-icon="back"><a href="#" data-rel="close">Cerrar</a></li>
-        <li><a href="index.html">Inicio</a></li>
-        <li><a href="calendar.html">Calendario</a></li>
-        <li><a href="settings.html">Configuración</a></li>
-        <li><a href="profile.html">Perfil</a></li>
-        <li><a href="about.html">Acerca de</a></li>
+        <li><a id="homebutton">Inicio</a></li>
+        <li><a id="calendarbutton">Calendario</a></li>
+        <li><a id="profilebutton">Perfil</a></li>
+        <li><a id="aboutbutton">Acerca de</a></li>
+        <li><a id="settingsbutton">Configuración</a></li>
       </ul>
 	  </div>
   </div>
