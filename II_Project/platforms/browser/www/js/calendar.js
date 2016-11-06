@@ -16,6 +16,7 @@
             // Default properties for events
             begin: "begin",
             end: "end",
+            numerEvent: "numberEvent",
             summary: "summary",
             bg: "bg", // as per http://stackoverflow.com/questions/18782689/how-to-change-the-background-image-on-particular-date-in-calendar-based-on-event
             itemIndex: "itemIndex",
@@ -371,12 +372,12 @@
                 $listItem.attr('id', 'id' + event.itemIndex);
             }
             if (event[plugin.settings.url]) {
-                $('<a></a>').text(text).attr('href', event[plugin.settings.url]).appendTo($listItem);
+                //$('<a onclick="eventSettings()"></a>').text(text).attr('href', event[plugin.settings.url]).appendTo($listItem);
             } else {
-                $listItem.text(text);
+                //$('<a onclick="eventSettings()"></a>').text(text).appendTo($listItem);
+                $('<a href="#popupMenuEvent" onclick="selectEvent(this.id)" data-rel="popup" data-transition="turn" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-gear ui-btn-icon-right ui-btn-a"></a>').
+                text(text).attr('id', event.numerEvent).appendTo($listItem);
             }
-            $("<button style='display:inline;'>Hola</button>").appendTo($listItem);
-
         }
 
         $element.bind('refresh', function (event, date) {
@@ -396,11 +397,16 @@
     }
 
     /* Added for me */
-    var calendar = {    // Object to get the events and things of the calendar
-        eventsCalendar: null,
-        refreshFunction: null
+    // Object to get the events and things of the calendar
+    var calendar = {
+        numberEvents: 1,
+        positionEventSelectedInArray: null, // Position in the array of events
+        eventSelected: null,                // Event selected by click
+        eventsCalendar: null,               // Have all events
+        refreshFunction: null               // Refresh the calendar in the html
     };
 
+    // Create calendar
     $(document).ready(function () {
         $("#calendar").jqmCalendar(calendar, {});
         $("#endDate").datepicker({
@@ -412,7 +418,15 @@
                 $("#endDate").val(getDateFormated(selected));
             }
         });
-        console.log(calendar);
+        $("#endDateEdit").datepicker({
+            firstDay: 1,
+            dayNamesMin: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
+            monthNames: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre"
+                , "Noviembre", "Diciembre"],
+            onSelect: function (selected, evnt) {
+                $("#endDateEdit").val(getDateFormated(selected));
+            }
+        });
     })
 
     getDateFormated = function (selected) {
@@ -426,22 +440,80 @@
 
     addEventToCalendar = function () {
         name = document.getElementById("nameEvent").value;
+        document.getElementById("nameEvent").value = "";
         if (name == "") {
             name = "Ocupado";
         }
         startDate = document.getElementById("startDate").value;
         startHour = document.getElementById("startHour").value;
+        document.getElementById("startHour").value = "00:00";  // Reset
         if (startHour == "") {
             startHour = "00:00";
         }
         endDate = document.getElementById("endDate").value;
         endHour = document.getElementById("endHour").value;
+        document.getElementById("endHour").value = "23:59";    // Reset
         if (endHour == "") {
             endHour = "00:01";
         }
-        calendar.eventsCalendar.splice(0, 0, {"summary": name, "begin": new Date(startDate + " " + startHour), "end": new Date(endDate + " " + endHour)});
+        calendar.eventsCalendar.splice(0, 0, {"summary": name, "begin": new Date(startDate + " " + startHour), 
+        "end": new Date(endDate + " " + endHour), "numerEvent": calendar.numberEvents});
         calendar.refreshFunction();
-        $("#popupBasic").popup("close");
+        calendar.numberEvents++;
+        $("#popupAddEvent").popup("close");
+    }
+
+    selectEvent = function (id) {
+        // Search event in calendar
+        for (var i = 0; i < calendar.eventsCalendar.length; i++) {
+            if (id == calendar.eventsCalendar[i].numerEvent) {
+                calendar.positionEventSelectedInArray = i;              // Get position
+                calendar.eventSelected = calendar.eventsCalendar[i];    // Get event
+                i = calendar.eventsCalendar.length;                     // Finish loop
+            }
+        }
+        
+        var startDate = new Date(calendar.eventSelected.begin);
+        var endDate = new Date(calendar.eventSelected.end);
+        
+        document.getElementById("nameEventEdit").value = calendar.eventSelected.summary;
+        document.getElementById("startDateEdit").value = getDateFormated(startDate);
+        document.getElementById("endDateEdit").value = getDateFormated(endDate);
+        hour = startDate.toString().substr(16, 2);
+        minutes = startDate.toString().substr(19, 2);
+        document.getElementById("startHourEdit").value = hour + ":" + minutes;
+        hour = endDate.toString().substr(16, 2);
+        minutes = endDate.toString().substr(19, 2);
+        document.getElementById("endHourEdit").value = hour + ":" + minutes;
+    }
+
+    editEvent = function () {
+        name = document.getElementById("nameEventEdit").value;
+        if (name == "") {
+            name = "Ocupado";
+        }
+        startDate = document.getElementById("startDateEdit").value;
+        startHour = document.getElementById("startHourEdit").value;
+        if (startHour == "") {
+            startHour = "00:00";
+        }
+        endDate = document.getElementById("endDateEdit").value;
+        endHour = document.getElementById("endHourEdit").value;
+        if (endHour == "") {
+            endHour = "00:01";
+        }
+        
+        calendar.eventSelected.summary = name;
+        calendar.eventSelected.begin = new Date(startDate + " " + startHour);
+        calendar.eventSelected.end = new Date(endDate + " " + endHour);
+        calendar.refreshFunction();
+        $("#popupMenuEvent").popup("close");
+    }
+
+    deleteEvent = function () {
+        calendar.eventsCalendar.splice(calendar.positionEventSelectedInArray, 1);
+        calendar.refreshFunction();             // Refresh calendar
+        $("#popupMenuEvent").popup("close");    // Close popup
     }
     /* ------------------------------------------------------------------------------*/
 

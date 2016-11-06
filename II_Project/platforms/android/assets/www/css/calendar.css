@@ -2,7 +2,8 @@
 	text-align: center;
 }
 
-#nameEvent, #startDate, #startHour, #endDate, #endHour {
+#nameEvent, #startDate, #startHour, #endDate, #endHour,
+#nameEventEdit, #startDateEdit, #startHourEdit, #endDateEdit, #endHourEdit {
     text-align: center;
 }
 
