@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ajustes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+  <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      var screen = $.mobile.getScreenHeight();
+      var header = $(".ui-header").hasClass("ui-header-fixed") ? $(".ui-header").outerHeight()  - 1 : $(".ui-header").outerHeight();
+      var footer = $(".ui-footer").hasClass("ui-footer-fixed") ? $(".ui-footer").outerHeight() - 1 : $(".ui-footer").outerHeight();
+
+      var contentCurrent = $(".ui-content").outerHeight() - $(".ui-content").height();
+      var content = screen - header - footer - contentCurrent;
+      $(".ui-content").height(content);
+    });
+  </script>
+  <style>
+    
+  </style>
+</head>
+
+<body>
+  <div class="outer" data-role="page">
+    <!-- Título -->
+    <div data-role="header" data-theme="b">
+      <h1>Ajustes</h1>
+      <a href="" data-icon="home" data-iconpos="notext"></a>
+      <a href="#outside" data-icon="bars" data-iconpos="notext">Menú</a>
+    </div>    
+    <!-- Contenido principal -->
+    <div role="main" class="ui-content">
+      <!-- Tabla de botones -->
+      <table class="buttonstable" align="center" width="100%" height="100%">
+        <tr>
+          <td><a href="#" data-role="button" data-icon="user" data-iconpos="top" data-theme="b">Personalizar</a></td>
+          <td><a href="#" data-role="button" data-icon="delete" data-iconpos="top" data-theme="b">Cerrar sesión</a></td>
+        </tr>
+        <tr>
+          <td><a href="#" data-role="button" data-icon="info" data-iconpos="top" data-theme="b">Acerca de</a></td>
+          <td><a href="#" data-role="button" data-icon="alert" data-iconpos="top" data-theme="b">Otros</a></td>
+        </tr>
+      </table>
+    </div>
+    <!-- Pie de página -->
+    <div data-role="footer" data-theme="b">
+      <h1>Interfaces Inteligentes · 2016</h1>
+    </div>
+    <!-- Menú desplegable -->
+    <div data-role="panel" id="outside" data-theme="b">
+      <ul data-role="listview">
+        <li data-icon="back"><a href="#" data-rel="close">Cerrar</a></li>
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="calendar.html">Calendario</a></li>
+        <li><a href="settings.html">Configuración</a></li>
+        <li><a href="profile.html">Perfil</a></li>
+        <li><a href="about.html">Acerca de</a></li>
+      </ul>
+	  </div>
+  </div>
+</body>
+</html>
