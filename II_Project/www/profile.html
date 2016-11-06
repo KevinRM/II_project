@@ -18,6 +18,7 @@
 		</script>
 	<script src="js/resize.js"></script>
 	<script src="js/buttons.js"></script>
+  <script src="js/camera.js"></script>
 
 </head>
 
@@ -37,6 +38,20 @@
         <input type="text" name="apellido" placeholder="Apellido" value="">
         <input type="date" name="nacimiento" placeholder="Nacimiento DD/MM/AAAA" value="">
         <input type="file" name="photo" placeholder="Imagen" value="">
+
+
+        <!--button onclick="capturePhotoWithData();">Capture Photo With Image Data</button> <br>
+   <button onclick="capturePhotoWithFile();">Capture Photo With Image File URI</button> <br-->
+   <button onclick="getPhoto(pictureSource.PHOTOLIBRARY);">From Photo Library</button><br>
+   <!--button onclick="getPhoto(pictureSource.SAVEDPHOTOALBUM);">From Photo Album</button><br-->
+   <img style="display:none;width:60px;height:60px;" id="smallImage" src="" />
+   <img style="display:none;" id="largeImage" src="" />
+   <div>Hola</div>
+
+
+
+
+
         <img src="img/standar-face.png" style="width:30%; margin: 0 auto; " />
       </div>
       <div data-role="collapsible">
