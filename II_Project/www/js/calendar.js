@@ -399,9 +399,10 @@
     /* Added for me */
     var calendar = {    // Object to get the events and things of the calendar
         numberEvents: 1,
-        eventSelected: null,
-        eventsCalendar: null,
-        refreshFunction: null
+        positionEventSelectedInArray: null, // Position in the array of events
+        eventSelected: null,    // Event selected by click
+        eventsCalendar: null,   // Have all events
+        refreshFunction: null   // Refresh the calendar in the html
     };
 
     $(document).ready(function () {
@@ -449,18 +450,60 @@
     }
 
     selectEvent = function (id) {
-        calendar.eventSelected = id;
+        // Search event in calendar
+        for (var i = 0; i < calendar.eventsCalendar.length; i++) {
+            if (id == calendar.eventsCalendar[i].numerEvent) {
+                calendar.positionEventSelectedInArray = i;              // Get position
+                calendar.eventSelected = calendar.eventsCalendar[i];    // Get event
+                i = calendar.eventsCalendar.length;                     // Finish loop
+            }
+        }
+        
+        document.getElementById("nameEventEdit").value = calendar.eventSelected.summary;
+        startDate = document.getElementById("startDateEdit").value = getDateFormated(calendar.eventSelected.begin);
+        console.log(calendar.eventSelected.begin);
+        /*startHour = document.getElementById("startHour").value = calendar.eventSelected.begin;
+        if (startHour == "") {
+            startHour = "00:00";
+        }
+        endDate = document.getElementById("endDate").value;
+        endHour = document.getElementById("endHour").value;
+        if (endHour == "") {
+            endHour = "00:01";
+        }
+        calendar.eventsCalendar.splice(0, 0, {"summary": name, "begin": new Date(startDate + " " + startHour), 
+        "end": new Date(endDate + " " + endHour), "numerEvent": calendar.numberEvents});
+        calendar.refreshFunction();
+        calendar.numberEvents++;
+        $("#popupAddEvent").popup("close");*/
+    }
+
+    editEvent = function () {
+        name = document.getElementById("nameEvent").value;
+        if (name == "") {
+            name = "Ocupado";
+        }
+        startDate = document.getElementById("startDate").value;
+        startHour = document.getElementById("startHour").value;
+        if (startHour == "") {
+            startHour = "00:00";
+        }
+        endDate = document.getElementById("endDate").value;
+        endHour = document.getElementById("endHour").value;
+        if (endHour == "") {
+            endHour = "00:01";
+        }
+        calendar.eventsCalendar.splice(0, 0, {"summary": name, "begin": new Date(startDate + " " + startHour), 
+        "end": new Date(endDate + " " + endHour), "numerEvent": calendar.numberEvents});
+        calendar.refreshFunction();
+        calendar.numberEvents++;
+        $("#popupAddEvent").popup("close");
     }
 
     deleteEvent = function () {
-        for (var i = 0; i < calendar.eventsCalendar.length; i++) {
-            if (calendar.eventSelected == calendar.eventsCalendar[i].numerEvent) {
-                calendar.eventsCalendar.splice(i, 1);   // Remove event
-                i = calendar.eventsCalendar.length;     // Finish loop
-                calendar.refreshFunction();             // Refresh calendar
-                $("#popupMenuEvent").popup("close");    // Close popup
-            }
-        }
+        calendar.eventsCalendar.splice(calendar.positionEventSelectedInArray, 1);
+        calendar.refreshFunction();             // Refresh calendar
+        $("#popupMenuEvent").popup("close");    // Close popup
     }
     /* ------------------------------------------------------------------------------*/
 

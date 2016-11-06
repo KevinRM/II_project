@@ -26,14 +26,15 @@
 
 <body>
     <div data-role="page">
-        <div data-role="header">
+        <div data-role="header" data-theme="b">
             <h1>Calendario</h1>
         </div>
         <div role="main" class="ui-content">
             <div id="calendar"></div>
+            <!-- Añadir eventos -->
             <div class="add_event">
                 <a href="#popupAddEvent" data-rel="popup" class="ui-btn ui-corner-all ui-shadow ui-btn-inline" data-transition="slidedown">Añadir evento</a>
-                <div data-role="popup" data-overlay-theme="a" data-theme="b" id="popupAddEvent">
+                <div data-role="popup" id="popupAddEvent" data-overlay-theme="a" data-theme="b">
                     <form>
                         <div style="text-align: center;padding:0px 20px">
                             <h3>Evento</h3>
@@ -41,24 +42,38 @@
                             <div class="startInput">
                                 <h4 style="margin-top:20px;">Inicio</h4>
                                 <input type="text" name="startDate" id="startDate" value="" placeholder="Fecha inicio" data-theme="b" readonly>
-                                <input type="time" name="startHour" id="startHour" value="" data-theme="b">
+                                <input type="time" name="startHour" id="startHour" value="00:00" data-theme="b">
                             </div>
                             <div class="endInput">
                                 <h4 style="margin-top:20px;">Final</h4>
-                                <input type="text" name="endDate" id="endDate" value="" placeholder="Fecha finalizar" data-theme="b">
-                                <input type="time" name="endHour" id="endHour" value="" data-theme="b">
+                                <input type="text" name="endDate" id="endDate" value="" placeholder="Fecha finalizar" data-theme="b" readonly>
+                                <input type="time" name="endHour" id="endHour" value="23:59" data-theme="b">
                             </div>
                             <button type="button" onClick="addEventToCalendar()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check">Añadir</button>
                         </div>
                     </form>
                 </div>
             </div>
-            <div data-role="popup" id="popupMenuEvent" data-theme="b">
-                <ul data-role="listview" data-inset="true" style="min-width:210px;">
-                    <li data-role="list-divider">Ajustes</li>
-                    <li><a href="#">Editar</a></li>
-                    <li><a href="#" onclick="deleteEvent()">Eliminar</a></li>
-                </ul>
+            <!-- Menú de evento -->
+            <div data-role="popup" id="popupMenuEvent" data-overlay-theme="a" data-theme="b">
+                <form>
+                    <div style="text-align: center;padding:0px 20px">
+                        <h3>Editar evento</h3>
+                        <input type="text" name="nameEvent" id="nameEventEdit" value="" placeholder="Nombre del evento" data-theme="b">
+                        <div class="startInput">
+                            <h4 style="margin-top:20px;">Inicio</h4>
+                            <input type="text" name="startDate" id="startDateEdit" value="" placeholder="Fecha inicio" data-theme="b" readonly>
+                            <input type="time" name="startHour" id="startHourEdit" value="00:00" data-theme="b">
+                        </div>
+                        <div class="endInput">
+                            <h4 style="margin-top:20px;">Final</h4>
+                            <input type="text" name="endDate" id="endDateEdit" value="" placeholder="Fecha finalizar" data-theme="b" readonly>
+                            <input type="time" name="endHour" id="endHourEdit" value="23:59" data-theme="b">
+                        </div>
+                        <button type="button" onClick="editEvent()" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check">Editar</button>
+                        <a href="#" onclick="deleteEvent()" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-delete ui-btn-icon-left ui-btn-b">Eliminar</a>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
