@@ -397,14 +397,16 @@
     }
 
     /* Added for me */
-    var calendar = {    // Object to get the events and things of the calendar
+    // Object to get the events and things of the calendar
+    var calendar = {
         numberEvents: 1,
         positionEventSelectedInArray: null, // Position in the array of events
-        eventSelected: null,    // Event selected by click
-        eventsCalendar: null,   // Have all events
-        refreshFunction: null   // Refresh the calendar in the html
+        eventSelected: null,                // Event selected by click
+        eventsCalendar: null,               // Have all events
+        refreshFunction: null               // Refresh the calendar in the html
     };
 
+    // Create calendar
     $(document).ready(function () {
         $("#calendar").jqmCalendar(calendar, {});
         $("#endDate").datepicker({
@@ -414,6 +416,15 @@
                 , "Noviembre", "Diciembre"],
             onSelect: function (selected, evnt) {
                 $("#endDate").val(getDateFormated(selected));
+            }
+        });
+        $("#endDateEdit").datepicker({
+            firstDay: 1,
+            dayNamesMin: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
+            monthNames: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre"
+                , "Noviembre", "Diciembre"],
+            onSelect: function (selected, evnt) {
+                $("#endDateEdit").val(getDateFormated(selected));
             }
         });
     })
@@ -429,16 +440,19 @@
 
     addEventToCalendar = function () {
         name = document.getElementById("nameEvent").value;
+        document.getElementById("nameEvent").value = "";
         if (name == "") {
             name = "Ocupado";
         }
         startDate = document.getElementById("startDate").value;
         startHour = document.getElementById("startHour").value;
+        document.getElementById("startHour").value = "00:00";  // Reset
         if (startHour == "") {
             startHour = "00:00";
         }
         endDate = document.getElementById("endDate").value;
         endHour = document.getElementById("endHour").value;
+        document.getElementById("endHour").value = "23:59";    // Reset
         if (endHour == "") {
             endHour = "00:01";
         }
@@ -459,45 +473,41 @@
             }
         }
         
+        var startDate = new Date(calendar.eventSelected.begin);
+        var endDate = new Date(calendar.eventSelected.end);
+        
         document.getElementById("nameEventEdit").value = calendar.eventSelected.summary;
-        startDate = document.getElementById("startDateEdit").value = getDateFormated(calendar.eventSelected.begin);
-        console.log(calendar.eventSelected.begin);
-        /*startHour = document.getElementById("startHour").value = calendar.eventSelected.begin;
-        if (startHour == "") {
-            startHour = "00:00";
-        }
-        endDate = document.getElementById("endDate").value;
-        endHour = document.getElementById("endHour").value;
-        if (endHour == "") {
-            endHour = "00:01";
-        }
-        calendar.eventsCalendar.splice(0, 0, {"summary": name, "begin": new Date(startDate + " " + startHour), 
-        "end": new Date(endDate + " " + endHour), "numerEvent": calendar.numberEvents});
-        calendar.refreshFunction();
-        calendar.numberEvents++;
-        $("#popupAddEvent").popup("close");*/
+        document.getElementById("startDateEdit").value = getDateFormated(startDate);
+        document.getElementById("endDateEdit").value = getDateFormated(endDate);
+        hour = startDate.toString().substr(16, 2);
+        minutes = startDate.toString().substr(19, 2);
+        document.getElementById("startHourEdit").value = hour + ":" + minutes;
+        hour = endDate.toString().substr(16, 2);
+        minutes = endDate.toString().substr(19, 2);
+        document.getElementById("endHourEdit").value = hour + ":" + minutes;
     }
 
     editEvent = function () {
-        name = document.getElementById("nameEvent").value;
+        name = document.getElementById("nameEventEdit").value;
         if (name == "") {
             name = "Ocupado";
         }
-        startDate = document.getElementById("startDate").value;
-        startHour = document.getElementById("startHour").value;
+        startDate = document.getElementById("startDateEdit").value;
+        startHour = document.getElementById("startHourEdit").value;
         if (startHour == "") {
             startHour = "00:00";
         }
-        endDate = document.getElementById("endDate").value;
-        endHour = document.getElementById("endHour").value;
+        endDate = document.getElementById("endDateEdit").value;
+        endHour = document.getElementById("endHourEdit").value;
         if (endHour == "") {
             endHour = "00:01";
         }
-        calendar.eventsCalendar.splice(0, 0, {"summary": name, "begin": new Date(startDate + " " + startHour), 
-        "end": new Date(endDate + " " + endHour), "numerEvent": calendar.numberEvents});
+        
+        calendar.eventSelected.summary = name;
+        calendar.eventSelected.begin = new Date(startDate + " " + startHour);
+        calendar.eventSelected.end = new Date(endDate + " " + endHour);
         calendar.refreshFunction();
-        calendar.numberEvents++;
-        $("#popupAddEvent").popup("close");
+        $("#popupMenuEvent").popup("close");
     }
 
     deleteEvent = function () {

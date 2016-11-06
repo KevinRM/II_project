@@ -11,23 +11,16 @@
     <link rel="stylesheet" href="css/jw-jqm-cal.css" />
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.js"></script>
-    <script type="text/javascript" src="js/calendar.js"></script>
+    <script src="js/calendar.js"></script>
+    <script src="js/buttons.js"></script>
     <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <!-- Idx =
-    <script type="text/javascript">
-      function changePage(page) {
-        window.location = page;
-      }
-    </script>
-    bdy
-    <button onclick="changePage('calendar.html')">Calendario</button>-->
-    <!-- ******** -->
 </head>
 
 <body>
     <div data-role="page">
         <div data-role="header" data-theme="b">
             <h1>Calendario</h1>
+            <a href="#outside" data-icon="bars" data-iconpos="notext">Menú</a>
         </div>
         <div role="main" class="ui-content">
             <div id="calendar"></div>
@@ -75,6 +68,15 @@
                     </div>
                 </form>
             </div>
+        </div>
+        <!-- Menu desplegable -->
+        <div data-role="panel" id="outside" data-theme="b">
+            <ul data-role="listview">
+                <li data-icon="back"><a href="#" data-rel="close">Cerrar</a></li>
+                <li><a id="profilebutton">Perfil</a></li>
+                <li><a id="aboutbutton">Acerca de</a></li>
+                <li><a id="settingsbutton">Configuración</a></li>
+            </ul>
         </div>
     </div>
 </body>
