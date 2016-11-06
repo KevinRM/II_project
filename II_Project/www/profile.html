@@ -11,6 +11,14 @@
   <!----><script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
   <script src="js/menu.js"></script>
   <link rel="stylesheet" href="css/profile.css" />
+  <script type="text/javascript">
+			function changePage(page) {
+				window.location = page;
+			}
+		</script>
+	<script src="js/resize.js"></script>
+	<script src="js/buttons.js"></script>
+
 </head>
 
 <body>
@@ -61,11 +69,11 @@
     <div data-role="panel" id="inside-a" data-position="left" data-display="overlay" data-theme="b">
       <ul data-role="listview">
         <li data-icon="back"><a href="#" data-rel="close">Cerrar</a></li>
-        <li><a href="index.html">Inicio</a></li>
-        <li><a href="calendar.html">Calendario</a></li>
-        <li><a href="settings.html">Configuración</a></li>
-        <li><a href="profile.html">Perfil</a></li>
-        <li><a href="about.html">Acerca de</a></li>
+        <li><a id="homebutton">Inicio</a></li>
+        <li><a id="calendarbutton">Calendario</a></li>
+        <li><a id="profilebutton">Perfil</a></li>
+        <li><a id="aboutbutton">Acerca de</a></li>
+        <li><a id="settingsbutton">Configuración</a></li>
       </ul>
 
     </div>
