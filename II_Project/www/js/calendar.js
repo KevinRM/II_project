@@ -376,7 +376,7 @@
             } else {
                 //$('<a onclick="eventSettings()"></a>').text(text).appendTo($listItem);
                 $('<a href="#popupMenuEvent" onclick="selectEvent(this.id)" data-rel="popup" data-transition="turn" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-gear ui-btn-icon-right ui-btn-a"></a>').
-                text(text).attr('id', event.numerEvent).appendTo($listItem);
+                    text(text).attr('id', event.numerEvent).appendTo($listItem);
             }
         }
 
@@ -438,6 +438,27 @@
             " " + selected.getFullYear();
     }
 
+    getEventsFromServer = function () {
+        var url = "php/eventGet.php";
+        $("#tablajson tbody").html("");
+        $.getJSON(url, function (clientes) {
+            $.each(clientes, function (i, cliente) {
+                var newRow =
+                    "<tr>"
+                    + "<td>" + cliente.id + "</td>"
+                    + "<td>" + cliente.nombre + "</td>"
+                    + "<td>" + cliente.edad + "</td>"
+                    + "<td>" + cliente.genero + "</td>"
+                    + "<td>" + cliente.email + "</td>"
+                    + "<td>" + cliente.localidad + "</td>"
+                    + "<td>" + cliente.telefono + "</td>"
+                    + "</tr>";
+                $(newRow).appendTo("#tablajson tbody");
+            });
+        });
+
+    }
+
     addEventToCalendar = function () {
         name = document.getElementById("nameEvent").value;
         document.getElementById("nameEvent").value = "";
@@ -456,8 +477,10 @@
         if (endHour == "") {
             endHour = "00:01";
         }
-        calendar.eventsCalendar.splice(0, 0, {"summary": name, "begin": new Date(startDate + " " + startHour), 
-        "end": new Date(endDate + " " + endHour), "numerEvent": calendar.numberEvents});
+        calendar.eventsCalendar.splice(0, 0, {
+            "summary": name, "begin": new Date(startDate + " " + startHour),
+            "end": new Date(endDate + " " + endHour), "numerEvent": calendar.numberEvents
+        });
         calendar.refreshFunction();
         calendar.numberEvents++;
         $("#popupAddEvent").popup("close");
@@ -472,10 +495,10 @@
                 i = calendar.eventsCalendar.length;                     // Finish loop
             }
         }
-        
+
         var startDate = new Date(calendar.eventSelected.begin);
         var endDate = new Date(calendar.eventSelected.end);
-        
+
         document.getElementById("nameEventEdit").value = calendar.eventSelected.summary;
         document.getElementById("startDateEdit").value = getDateFormated(startDate);
         document.getElementById("endDateEdit").value = getDateFormated(endDate);
@@ -502,7 +525,7 @@
         if (endHour == "") {
             endHour = "00:01";
         }
-        
+
         calendar.eventSelected.summary = name;
         calendar.eventSelected.begin = new Date(startDate + " " + startHour);
         calendar.eventSelected.end = new Date(endDate + " " + endHour);
