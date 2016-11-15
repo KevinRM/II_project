@@ -376,7 +376,7 @@
             } else {
                 //$('<a onclick="eventSettings()"></a>').text(text).appendTo($listItem);
                 $('<a href="#popupMenuEvent" onclick="selectEvent(this.id)" data-rel="popup" data-transition="turn" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-gear ui-btn-icon-right ui-btn-a"></a>').
-                text(text).attr('id', event.numerEvent).appendTo($listItem);
+                    text(text).attr('id', event.numerEvent).appendTo($listItem);
             }
         }
 
@@ -409,6 +409,7 @@
     // Create calendar
     $(document).ready(function () {
         $("#calendar").jqmCalendar(calendar, {});
+        // Format datepicker
         $("#endDate").datepicker({
             firstDay: 1,
             dayNamesMin: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
@@ -418,6 +419,7 @@
                 $("#endDate").val(getDateFormated(selected));
             }
         });
+        // Format datepicker
         $("#endDateEdit").datepicker({
             firstDay: 1,
             dayNamesMin: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
@@ -427,6 +429,7 @@
                 $("#endDateEdit").val(getDateFormated(selected));
             }
         });
+        getEventsFromServer();
     })
 
     getDateFormated = function (selected) {
@@ -436,6 +439,21 @@
         selected = new Date(selected);
         return daysOfWeek[selected.getDay()] + " " + monthsOfYear[selected.getMonth()] + " " + selected.getDate() +
             " " + selected.getFullYear();
+    }
+
+    getEventsFromServer = function () {
+        var url = "http://socialcalendarplus.esy.es/eventGet.php";
+        //$("#tablajson tbody").html("");
+        $.getJSON(url, function (clientes) {
+            $.each(clientes, function (i, cliente) {
+                calendar.eventsCalendar.splice(0, 0, {
+                    "summary": cliente.nameEvent, "begin": new Date(cliente.inicio),
+                    "end": new Date(cliente.fin), "numerEvent": calendar.numberEvents
+                });
+                calendar.numberEvents++;
+            });
+            calendar.refreshFunction();
+        });
     }
 
     addEventToCalendar = function () {
@@ -456,8 +474,10 @@
         if (endHour == "") {
             endHour = "00:01";
         }
-        calendar.eventsCalendar.splice(0, 0, {"summary": name, "begin": new Date(startDate + " " + startHour), 
-        "end": new Date(endDate + " " + endHour), "numerEvent": calendar.numberEvents});
+        calendar.eventsCalendar.splice(0, 0, {
+            "summary": name, "begin": new Date(startDate + " " + startHour),
+            "end": new Date(endDate + " " + endHour), "numerEvent": calendar.numberEvents
+        });
         calendar.refreshFunction();
         calendar.numberEvents++;
         $("#popupAddEvent").popup("close");
@@ -472,10 +492,10 @@
                 i = calendar.eventsCalendar.length;                     // Finish loop
             }
         }
-        
+
         var startDate = new Date(calendar.eventSelected.begin);
         var endDate = new Date(calendar.eventSelected.end);
-        
+
         document.getElementById("nameEventEdit").value = calendar.eventSelected.summary;
         document.getElementById("startDateEdit").value = getDateFormated(startDate);
         document.getElementById("endDateEdit").value = getDateFormated(endDate);
@@ -502,7 +522,7 @@
         if (endHour == "") {
             endHour = "00:01";
         }
-        
+
         calendar.eventSelected.summary = name;
         calendar.eventSelected.begin = new Date(startDate + " " + startHour);
         calendar.eventSelected.end = new Date(endDate + " " + endHour);

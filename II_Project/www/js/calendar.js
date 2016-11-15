@@ -409,6 +409,7 @@
     // Create calendar
     $(document).ready(function () {
         $("#calendar").jqmCalendar(calendar, {});
+        // Format datepicker
         $("#endDate").datepicker({
             firstDay: 1,
             dayNamesMin: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
@@ -418,6 +419,7 @@
                 $("#endDate").val(getDateFormated(selected));
             }
         });
+        // Format datepicker
         $("#endDateEdit").datepicker({
             firstDay: 1,
             dayNamesMin: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
@@ -427,6 +429,7 @@
                 $("#endDateEdit").val(getDateFormated(selected));
             }
         });
+        getEventsFromServer();
     })
 
     getDateFormated = function (selected) {
@@ -439,24 +442,18 @@
     }
 
     getEventsFromServer = function () {
-        var url = "php/eventGet.php";
-        $("#tablajson tbody").html("");
+        var url = "http://socialcalendarplus.esy.es/eventGet.php";
+        //$("#tablajson tbody").html("");
         $.getJSON(url, function (clientes) {
             $.each(clientes, function (i, cliente) {
-                var newRow =
-                    "<tr>"
-                    + "<td>" + cliente.id + "</td>"
-                    + "<td>" + cliente.nombre + "</td>"
-                    + "<td>" + cliente.edad + "</td>"
-                    + "<td>" + cliente.genero + "</td>"
-                    + "<td>" + cliente.email + "</td>"
-                    + "<td>" + cliente.localidad + "</td>"
-                    + "<td>" + cliente.telefono + "</td>"
-                    + "</tr>";
-                $(newRow).appendTo("#tablajson tbody");
+                calendar.eventsCalendar.splice(0, 0, {
+                    "summary": cliente.nameEvent, "begin": new Date(cliente.inicio),
+                    "end": new Date(cliente.fin), "numerEvent": calendar.numberEvents
+                });
+                calendar.numberEvents++;
             });
+            calendar.refreshFunction();
         });
-
     }
 
     addEventToCalendar = function () {
