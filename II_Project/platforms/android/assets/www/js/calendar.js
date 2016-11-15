@@ -445,6 +445,7 @@
         var url = "http://socialcalendarplus.esy.es/eventGet.php";
 
         $.getJSON(url, function (eventsReceived) {
+            calendar.eventsCalendar.length = 0;
             $.each(eventsReceived, function (i, event) {
                 calendar.eventsCalendar.splice(0, 0, {
                     "summary": event.name, "begin": new Date(event.start),
@@ -452,7 +453,7 @@
                 });
                 //calendar.numberEvents++;
             });
-            calendar.refreshFunction();
+            refreshCal();
         });
     }
 
@@ -474,25 +475,35 @@
         if (endHour == "") {
             endHour = "00:01";
         }
-        
+
         /*calendar.eventsCalendar.splice(0, 0, {
             "summary": name, "begin": new Date(startDate + " " + startHour),
             "end": new Date(endDate + " " + endHour), "id": 0
         });*/
-        
-        var dataToSend = {
+
+        var dataToSend = [{
             "name": name,
             "start": new Date(startDate + " " + startHour),
             "finish": new Date(endDate + " " + endHour)
-        }
+        }]
 
         var dataJSON = JSON.stringify(dataToSend);
-        console.log(dataJSON);
-        //getEventsFromServer();
+
+        // Realizamos la petición al servidor
+        var url = "http://socialcalendarplus.esy.es/eventSet.php";
+        $.post(url, { eventSent: dataJSON },
+            function () {
+                //console.log(answer);
+                getEventsFromServer();
+            }).error(
+            function () {
+                console.log('Error al ejecutar la petición');
+            }
+        );
         
         //calendar.refreshFunction();
         //calendar.numberEvents++;
-        
+
         $("#popupAddEvent").popup("close");
     }
 
@@ -547,6 +558,10 @@
         calendar.eventsCalendar.splice(calendar.positionEventSelectedInArray, 1);
         calendar.refreshFunction();             // Refresh calendar
         $("#popupMenuEvent").popup("close");    // Close popup
+    }
+
+    refreshCal = function () {
+        calendar.refreshFunction();
     }
     /* ------------------------------------------------------------------------------*/
 
