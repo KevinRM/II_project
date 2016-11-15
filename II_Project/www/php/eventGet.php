@@ -19,13 +19,13 @@ $events = array(); //creamos un array
 while($row = mysqli_fetch_array($result)) 
 { 
     $id=$row['id'];
-    $nameEvent=$row['nameEvent'];
+    $name=$row['name'];
     $creator=$row['creator'];
-    $inicio=$row['inicio'];
-    $fin=$row['fin'];
+    $start=$row['start'];
+    $finish=$row['finish'];
     $public=$row['public'];
 
-    $events[] = array('id'=> $id,'nameEvent' => $nameEvent, 'creator'=> $creator, 'inicio'=> $inicio, 'fin'=> $fin,
+    $events[] = array('id'=> $id, 'name' => $name, 'creator'=> $creator, 'start'=> $start, 'finish'=> $finish,
                         'public'=> $public);
 }
 
