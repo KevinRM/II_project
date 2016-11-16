@@ -19,14 +19,14 @@ $events = array(); //creamos un array
 while($row = mysqli_fetch_array($result)) 
 { 
     $id=$row['id'];
-    $nameEvent=$row['nameEvent'];
+    $name=$row['name'];
     $creator=$row['creator'];
-    $inicio=$row['inicio'];
-    $fin=$row['fin'];
-    $public=$row['public'];
+    $start=$row['start'];
+    $finish=$row['finish'];
+    $private=$row['private'];
 
-    $events[] = array('id'=> $id,'nameEvent' => $nameEvent, 'creator'=> $creator, 'inicio'=> $inicio, 'fin'=> $fin,
-                        'public'=> $public);
+    $events[] = array('id'=> $id, 'name' => $name, 'creator'=> $creator, 'start'=> $start, 'finish'=> $finish,
+                        'isPrivate'=> $private);
 }
 
 //desconectamos la base de datos

@@ -16,7 +16,8 @@
             // Default properties for events
             begin: "begin",
             end: "end",
-            numerEvent: "numberEvent",
+            id: "id",
+            isPrivate: "isPrivate",
             summary: "summary",
             bg: "bg", // as per http://stackoverflow.com/questions/18782689/how-to-change-the-background-image-on-particular-date-in-calendar-based-on-event
             itemIndex: "itemIndex",
@@ -376,7 +377,7 @@
             } else {
                 //$('<a onclick="eventSettings()"></a>').text(text).appendTo($listItem);
                 $('<a href="#popupMenuEvent" onclick="selectEvent(this.id)" data-rel="popup" data-transition="turn" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-gear ui-btn-icon-right ui-btn-a"></a>').
-                    text(text).attr('id', event.numerEvent).appendTo($listItem);
+                    text(text).attr('id', event.id).appendTo($listItem);
             }
         }
 
@@ -399,7 +400,7 @@
     /* Added for me */
     // Object to get the events and things of the calendar
     var calendar = {
-        numberEvents: 1,
+        //numberEvents: 1,
         positionEventSelectedInArray: null, // Position in the array of events
         eventSelected: null,                // Event selected by click
         eventsCalendar: null,               // Have all events
@@ -443,14 +444,14 @@
 
     getEventsFromServer = function () {
         var url = "http://socialcalendarplus.esy.es/eventGet.php";
-        //$("#tablajson tbody").html("");
-        $.getJSON(url, function (clientes) {
-            $.each(clientes, function (i, cliente) {
+
+        $.getJSON(url, function (eventsReceived) {
+            calendar.eventsCalendar.length = 0;
+            $.each(eventsReceived, function (i, event) {
                 calendar.eventsCalendar.splice(0, 0, {
-                    "summary": cliente.nameEvent, "begin": new Date(cliente.inicio),
-                    "end": new Date(cliente.fin), "numerEvent": calendar.numberEvents
+                    "summary": event.name, "begin": new Date(event.start),
+                    "end": new Date(event.finish), "id": event.id, "isPrivate": event.isPrivate
                 });
-                calendar.numberEvents++;
             });
             calendar.refreshFunction();
         });
@@ -474,19 +475,37 @@
         if (endHour == "") {
             endHour = "00:01";
         }
-        calendar.eventsCalendar.splice(0, 0, {
-            "summary": name, "begin": new Date(startDate + " " + startHour),
-            "end": new Date(endDate + " " + endHour), "numerEvent": calendar.numberEvents
-        });
-        calendar.refreshFunction();
-        calendar.numberEvents++;
+        eventPrivate = document.getElementById("eventPrivate").checked;
+        document.getElementById("eventPrivate").checked = 0;
+        //console.log(eventPrivate);
+
+        var dataToSend = [{
+            "name": name,
+            "start": new Date(startDate + " " + startHour),
+            "finish": new Date(endDate + " " + endHour),
+            "isPrivate": eventPrivate
+        }]
+
+        var dataJSON = JSON.stringify(dataToSend);
+
+        // Realizamos la petición al servidor
+        var url = "http://socialcalendarplus.esy.es/eventSet.php";
+        $.post(url, { eventSent: dataJSON },
+            function () {
+                getEventsFromServer();
+            }).error(
+            function () {
+                console.log('Error al ejecutar la petición');
+            }
+            );
+
         $("#popupAddEvent").popup("close");
     }
 
     selectEvent = function (id) {
         // Search event in calendar
         for (var i = 0; i < calendar.eventsCalendar.length; i++) {
-            if (id == calendar.eventsCalendar[i].numerEvent) {
+            if (id == calendar.eventsCalendar[i].id) {
                 calendar.positionEventSelectedInArray = i;              // Get position
                 calendar.eventSelected = calendar.eventsCalendar[i];    // Get event
                 i = calendar.eventsCalendar.length;                     // Finish loop
@@ -505,6 +524,12 @@
         hour = endDate.toString().substr(16, 2);
         minutes = endDate.toString().substr(19, 2);
         document.getElementById("endHourEdit").value = hour + ":" + minutes;
+        if (calendar.eventSelected.isPrivate > 0) {
+            document.getElementById("eventPrivateEdit").checked = true;
+        } else {
+            document.getElementById("eventPrivateEdit").checked = false;
+        }
+        console.log(calendar.eventSelected.isPrivate);
     }
 
     editEvent = function () {
