@@ -17,6 +17,7 @@
             begin: "begin",
             end: "end",
             id: "id",
+            isPrivate: "isPrivate",
             summary: "summary",
             bg: "bg", // as per http://stackoverflow.com/questions/18782689/how-to-change-the-background-image-on-particular-date-in-calendar-based-on-event
             itemIndex: "itemIndex",
@@ -449,7 +450,7 @@
             $.each(eventsReceived, function (i, event) {
                 calendar.eventsCalendar.splice(0, 0, {
                     "summary": event.name, "begin": new Date(event.start),
-                    "end": new Date(event.finish), "id": event.id
+                    "end": new Date(event.finish), "id": event.id, "isPrivate": event.isPrivate
                 });
             });
             calendar.refreshFunction();
@@ -474,11 +475,15 @@
         if (endHour == "") {
             endHour = "00:01";
         }
+        eventPrivate = document.getElementById("eventPrivate").checked;
+        document.getElementById("eventPrivate").checked = 0;
+        //console.log(eventPrivate);
 
         var dataToSend = [{
             "name": name,
             "start": new Date(startDate + " " + startHour),
-            "finish": new Date(endDate + " " + endHour)
+            "finish": new Date(endDate + " " + endHour),
+            "isPrivate": eventPrivate
         }]
 
         var dataJSON = JSON.stringify(dataToSend);
@@ -492,8 +497,8 @@
             function () {
                 console.log('Error al ejecutar la petición');
             }
-        );
-        
+            );
+
         $("#popupAddEvent").popup("close");
     }
 
@@ -519,6 +524,12 @@
         hour = endDate.toString().substr(16, 2);
         minutes = endDate.toString().substr(19, 2);
         document.getElementById("endHourEdit").value = hour + ":" + minutes;
+        if (calendar.eventSelected.isPrivate > 0) {
+            document.getElementById("eventPrivateEdit").checked = true;
+        } else {
+            document.getElementById("eventPrivateEdit").checked = false;
+        }
+        console.log(calendar.eventSelected.isPrivate);
     }
 
     editEvent = function () {

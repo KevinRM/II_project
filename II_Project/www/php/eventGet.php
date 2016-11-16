@@ -23,10 +23,10 @@ while($row = mysqli_fetch_array($result))
     $creator=$row['creator'];
     $start=$row['start'];
     $finish=$row['finish'];
-    $public=$row['public'];
+    $private=$row['private'];
 
     $events[] = array('id'=> $id, 'name' => $name, 'creator'=> $creator, 'start'=> $start, 'finish'=> $finish,
-                        'public'=> $public);
+                        'isPrivate'=> $private);
 }
 
 //desconectamos la base de datos
