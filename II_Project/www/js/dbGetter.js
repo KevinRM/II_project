@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  var myObject = {id : 'Pepe_85'}
+  var myObject = {id : 'JuanitoIto'}
   var json = JSON.stringify(myObject);
   $.post("http://socialcalendarplus.esy.es/profileGetter.php",{ par:json},null, "json")
   .done(function( data, textStatus, jqXHR ) {
