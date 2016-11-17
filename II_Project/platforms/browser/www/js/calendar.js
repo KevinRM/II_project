@@ -397,11 +397,8 @@
         });
     }
 
-    /* Added for me */
     // Object to get the events and things of the calendar
     var calendar = {
-        //numberEvents: 1,
-        positionEventSelectedInArray: null, // Position in the array of events
         eventSelected: null,                // Event selected by click
         eventsCalendar: null,               // Have all events
         refreshFunction: null               // Refresh the calendar in the html
@@ -442,6 +439,7 @@
             " " + selected.getFullYear();
     }
 
+    // Function to get all events from server
     getEventsFromServer = function () {
         var url = "http://socialcalendarplus.esy.es/eventGet.php";
 
@@ -457,6 +455,7 @@
         });
     }
 
+    // Function to create an event
     addEventToCalendar = function () {
         name = document.getElementById("nameEvent").value;
         document.getElementById("nameEvent").value = "";
@@ -477,61 +476,55 @@
         }
         eventPrivate = document.getElementById("eventPrivate").checked;
         document.getElementById("eventPrivate").checked = 0;
-        //console.log(eventPrivate);
 
         var dataToSend = [{
             "name": name,
             "start": new Date(startDate + " " + startHour),
             "finish": new Date(endDate + " " + endHour),
-            "isPrivate": eventPrivate
+            "private": eventPrivate
         }]
-
         var dataJSON = JSON.stringify(dataToSend);
-
-        // Realizamos la petición al servidor
         var url = "http://socialcalendarplus.esy.es/eventSet.php";
-        $.post(url, { eventSent: dataJSON },
-            function () {
-                getEventsFromServer();
-            }).error(
-            function () {
-                console.log('Error al ejecutar la petición');
-            }
-            );
+       
+       contactServer(url, dataJSON);
 
         $("#popupAddEvent").popup("close");
     }
 
+    // Function to select an event
     selectEvent = function (id) {
         // Search event in calendar
         for (var i = 0; i < calendar.eventsCalendar.length; i++) {
             if (id == calendar.eventsCalendar[i].id) {
-                calendar.positionEventSelectedInArray = i;              // Get position
                 calendar.eventSelected = calendar.eventsCalendar[i];    // Get event
                 i = calendar.eventsCalendar.length;                     // Finish loop
             }
         }
 
+        // Date
         var startDate = new Date(calendar.eventSelected.begin);
         var endDate = new Date(calendar.eventSelected.end);
-
         document.getElementById("nameEventEdit").value = calendar.eventSelected.summary;
         document.getElementById("startDateEdit").value = getDateFormated(startDate);
         document.getElementById("endDateEdit").value = getDateFormated(endDate);
+        
+        // Hour
         hour = startDate.toString().substr(16, 2);
         minutes = startDate.toString().substr(19, 2);
         document.getElementById("startHourEdit").value = hour + ":" + minutes;
         hour = endDate.toString().substr(16, 2);
         minutes = endDate.toString().substr(19, 2);
         document.getElementById("endHourEdit").value = hour + ":" + minutes;
-        if (calendar.eventSelected.isPrivate > 0) {
+        
+        // Private
+        if (calendar.eventSelected.isPrivate > 0) { // 0 = false
             document.getElementById("eventPrivateEdit").checked = true;
         } else {
             document.getElementById("eventPrivateEdit").checked = false;
         }
-        console.log(calendar.eventSelected.isPrivate);
     }
 
+    // Function to edit an event
     editEvent = function () {
         name = document.getElementById("nameEventEdit").value;
         if (name == "") {
@@ -547,18 +540,47 @@
         if (endHour == "") {
             endHour = "00:01";
         }
+        eventPrivate = document.getElementById("eventPrivateEdit").checked;
 
-        calendar.eventSelected.summary = name;
-        calendar.eventSelected.begin = new Date(startDate + " " + startHour);
-        calendar.eventSelected.end = new Date(endDate + " " + endHour);
-        calendar.refreshFunction();
+        var dataToUpdate = [{
+            "id": calendar.eventSelected.id,
+            "name": name,
+            "start": new Date(startDate + " " + startHour),
+            "finish": new Date(endDate + " " + endHour),
+            "private": eventPrivate
+        }]
+
+        var dataJSON = JSON.stringify(dataToUpdate);
+        var url = "http://socialcalendarplus.esy.es/eventUpdate.php";
+        
+        contactServer(url, dataJSON);
+
         $("#popupMenuEvent").popup("close");
     }
 
+    // Function to delete an event
     deleteEvent = function () {
-        calendar.eventsCalendar.splice(calendar.positionEventSelectedInArray, 1);
-        calendar.refreshFunction();             // Refresh calendar
+        var dataToDelete = [{
+            "id": calendar.eventSelected.id
+        }]
+        var dataJSON = JSON.stringify(dataToDelete);
+        var url = "http://socialcalendarplus.esy.es/eventDelete.php";
+        
+        contactServer(url, dataJSON);
+        
         $("#popupMenuEvent").popup("close");    // Close popup
+    }
+
+    // Function to communicate with the server
+    contactServer = function (url, data) {
+        $.post(url, { eventData: data },
+            function () {
+                getEventsFromServer();
+            }).error(
+            function () {
+                console.log('Error al ejecutar la petición');
+            }
+            );
     }
     /* ------------------------------------------------------------------------------*/
 

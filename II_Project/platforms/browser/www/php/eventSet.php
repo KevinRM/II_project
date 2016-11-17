@@ -4,7 +4,7 @@ $user = "u344358176_calen";
 $pass = "supercalendar";
 $bd = "u344358176_calen";
 
-$event = json_decode($_POST['eventSent']);
+$event = json_decode($_POST['eventData']);
 $name = $event[0]->name;
 $start = $event[0]->start;
 $finish = $event[0]->finish;
